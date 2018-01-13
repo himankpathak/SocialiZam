@@ -22,7 +22,7 @@ if (typeof Object.create !== 'function') {
         var options = $.extend(defaults, _options),
             container = $(this),
             template,
-            social_networks = ['facebook', 'instagram', 'google', 'blogspot', 'twitter', 'pinterest', 'rss'],
+            social_networks = ['facebook', 'instagram', 'google', 'twitter', 'pinterest', 'rss'],
             posts_to_load_count = 0,
             loaded_post_count = 0;
         // container.empty().css('display', 'block');
@@ -266,7 +266,7 @@ if (typeof Object.create !== 'function') {
                         var post = {};
                         if (element.id) {
                             post.id = element.id;
-                            //prevent a moment.js console warning due to Twitter's poor date format.
+
                             post.dt_create = moment(new Date(element.created_at));
                             post.author_link = 'http://twitter.com/' + element.user.screen_name;
                             post.author_picture = element.user.profile_image_url;
@@ -532,56 +532,16 @@ if (typeof Object.create !== 'function') {
                     }
                 }
             },
-            blogspot: {
-                loaded: false,
-                getData: function(account) {
-                    var url;
-
-                    switch (account[0]) {
-                        case '@':
-                            var username = account.substr(1);
-                            url = 'http://' + username + '.blogspot.com/feeds/posts/default?alt=json-in-script&callback=?';
-                            request(url, getPosts);
-                            break;
-                        default:
-                    }
-                },
-                utility: {
-                    getPosts: function(json) {
-                        $.each(json.feed.entry, function() {
-                            var post = {},
-                                element = this;
-                            post.id = element.id['$t'].replace(/[^a-z0-9]/gi, '');
-                            post.dt_create = moment((element.published['$t']));
-                            post.author_link = element.author[0]['uri']['$t'];
-                            post.author_picture = 'http:' + element.author[0]['gd$image']['src'];
-                            post.author_name = element.author[0]['name']['$t'];
-                            post.message = element.title['$t'] + '</br></br>' + stripHTML(element.content['$t']);
-                            post.description = '';
-                            post.link = element.link.pop().href;
-
-                            if (options.show_media) {
-                                if (element['media$thumbnail']) {
-                                    post.attachment = '<img class="attachment" src="' + element['media$thumbnail']['url'] + '" />';
-                                }
-                            }
-
-                            post.render();
-
-                        });
-                    }
-                }
-            },
             pinterest: {
                 posts: [],
                 loaded: false,
                 apiv1: 'https://api.pinterest.com/v1/',
-
                 getData: function(account) {
                     var request_url,
                       limit = 'limit=' + options.pinterest.limit,
                       fields = 'fields=id,created_at,link,note,creator(url,first_name,last_name,image),image',
                       query_extention = fields + '&access_token=' + options.pinterest.access_token + '&' + limit + '&callback=?';
+
                     switch (account[0]) {
                         case '@':
                             var username = account.substr(1);
@@ -618,45 +578,6 @@ if (typeof Object.create !== 'function') {
                         post.link = element.link ? element.link : 'https://www.pinterest.com/pin/' + element.id;
                         if (options.show_media) {
                             post.attachment = '<img class="attachment" src="' + element.image['original'].url + '" />';
-                        }
-                        return post;
-                    }
-                }
-            },
-            rss : {
-                posts: [],
-                loaded: false,
-                api : 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0',
-
-                getData: function(url) {
-                    var limit = '&num='+ options.rss.limit,
-                      request_url = Feed.rss.api + limit + '&q=' + encodeURIComponent(url);
-
-                    Utility.request(request_url, Feed.rss.utility.getPosts);
-                },
-                utility: {
-
-                    getPosts: function(json) {
-                        $.each(json.responseData.feed.entries, function(index, element) {
-                            var post = new SocialFeedPost('rss', Feed.rss.utility.unifyPostData(index, element));
-                            post.render();
-                        });
-                    },
-
-                    unifyPostData: function(index, element){
-                        var post = {};
-
-                        post.id = index;
-                        post.dt_create= moment(element.publishedDate, 'ddd, DD MMM YYYY HH:mm:ss ZZ', 'en');
-                        post.author_link = '';
-                        post.author_picture = '';
-                        post.author_name = element.author;
-                        post.message = Utility.stripHTML(element.title);
-                        post.description = Utility.stripHTML(element.content);
-                        post.social_network = 'rss';
-                        post.link = element.link;
-                        if (options.show_media && element.mediaGroups ) {
-                            post.attachment = '<img class="attachment" src="' + element.mediaGroups[0].contents[0].url + '" />';
                         }
                         return post;
                     }

@@ -74,29 +74,108 @@
         <div class="main">
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-     <div class="modal-dialog">
+     <div class="modal-dialog" style="min-width:50vw;">
        <div class="modal-content">
          <div class="modal-header no-border-header text-center">
-             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <button type="button" class="close" id="closeModal" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">×</span>
              </button>
              <h6 class="text-muted">Welcome to</h6>
-             <h3 class="modal-title text-center">SocialiZam</h3>
-             <p>Enter the desired handles for different networks separated by commas</p>
+             <h2 class="modal-title text-center">SocialiZam</h2>
+             <p>Enter the desired handles for the desired social networks<br>Don't forget to separate them by commas</p>
          </div>
          <div class="modal-body">
-             <div class="form-group">
-                 <label>Facebook</label>
-             <input type="text" value="" placeholder="facebook" class="form-control" id="queryhfb">
-           </div>
-           <div class="form-group">
-                 <label>Instagram</label>
-             <input type="text" value="" placeholder="instagram" class="form-control" id="queryhinsta">
-           </div>
-           <div class="form-group">
-                 <label>Twitter</label>
-             <input type="text" value="" placeholder="twitter" class="form-control" id="queryhtweet">
-           </div>
+
+          <div class="row" style="overflow-y:auto">
+            <div class="col-md-6 col-sm-12">
+              <div class="card card-blog">
+							  <div class="card-image">
+								<a href="#">
+									<img class="img" src="img/icons/fbico.png">
+								</a>
+                    </div>
+							    <div class="card-block">
+                                <h4 class="card-title">
+                                    FACEBOOK
+                                </h4>
+                                <hr>
+                                <div class="card-footer">
+                                  <div class="form-group">
+                                      <label>Facebook</label>
+                                  <input type="text" value="" placeholder="facebook" class="form-control" id="queryhfb">
+                                </div>
+	                            </div>
+							      </div>
+						      </div>
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <div class="card card-blog">
+  							  <div class="card-image">
+  								<a href="#">
+  									<img class="img" src="img/icons/twitterico.png">
+  								</a>
+                      </div>
+  							    <div class="card-block">
+                                  <h4 class="card-title">
+                                      TWITTER
+                                  </h4>
+                                  <hr>
+                                  <div class="card-footer">
+                                    <div class="form-group">
+                                          <label>Twitter</label>
+                                      <input type="text" value="" placeholder="twitter" class="form-control" id="queryhtweet">
+                                    </div>
+  	                            </div>
+  							      </div>
+  						      </div>
+                </div>
+            </div>
+
+            <div class="row" style="overflow-y:auto">
+              <div class="col-md-6 col-sm-12">
+                <div class="card card-blog">
+  							  <div class="card-image">
+  								<a href="#">
+  									<img class="img" src="img/icons/instaico.png">
+  								</a>
+                      </div>
+  							    <div class="card-block">
+                                  <h4 class="card-title">
+                                      INSTAGRAM
+                                  </h4>
+                                  <hr>
+                                  <div class="card-footer">
+                                    <div class="form-group">
+                                          <label>Instagram</label>
+                                      <input type="text" value="" placeholder="instagram" class="form-control" id="queryhinsta">
+                                    </div>
+  	                            </div>
+  							      </div>
+  						      </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="card card-blog">
+    							  <div class="card-image">
+    								<a href="#">
+    									<img class="img" src="img/icons/googleico.png">
+    								</a>
+                        </div>
+    							    <div class="card-block">
+                                    <h4 class="card-title">
+                                        GOOGLE+
+                                    </h4>
+                                    <hr>
+                                    <div class="card-footer">
+                                      <div class="form-group">
+                                          <label>Google+</label>
+                                      <input type="text" value="" placeholder="googleplus" class="form-control" id="queryhgoogle">
+                                    </div>
+    	                            </div>
+    							      </div>
+    						      </div>
+                  </div>
+              </div>
+
              <button class="btn btn-info btn-block btn-round" id="button-update">SocialiZe Now!</button>
           </form>
          </div>
@@ -153,6 +232,10 @@
 
 <script>
 $(document).ready(function() {
+  $('#closeModal').click(function() {
+    $('#myModal').modal('hide');
+  });
+
   $('#button-update').click(function() {
 
   sessionStorage.fbValue = $('#queryhfb').val();
