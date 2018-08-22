@@ -1,6 +1,7 @@
 # SocialiZam
 
-A social media outreach analyser for generating feeds from multiple social platforms and showing them on a single space,
+A social media outreach analyser for generating feeds from multiple social platforms and showing them in a single space.
+![SocialiZam Cover](https://raw.githubusercontent.com/himankpathak/SocialiZam/master/img/cover.png)
 
 ## In Development Stage
 
